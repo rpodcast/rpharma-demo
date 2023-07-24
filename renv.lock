@@ -264,10 +264,10 @@
     },
     "fs": {
       "Package": "fs",
-      "Version": "1.6.1",
+      "Version": "1.6.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f4dcd23b67e33d851d2079f703e8b985",
+      "Hash": "47b5f30c720c23999b913a1a635cf0bb",
       "Requirements": []
     },
     "generics": {
@@ -475,6 +475,20 @@
         "rlang"
       ]
     },
+    "purrr": {
+      "Package": "purrr",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "d71c815267c640f17ddbf7f16144b4bb",
+      "Requirements": [
+        "cli",
+        "lifecycle",
+        "magrittr",
+        "rlang",
+        "vctrs"
+      ]
+    },
     "rappdirs": {
       "Package": "rappdirs",
       "Version": "0.3.3",
@@ -517,6 +531,14 @@
         "xfun",
         "yaml"
       ]
+    },
+    "rprojroot": {
+      "Package": "rprojroot",
+      "Version": "2.0.3",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "1de7ab598047a87bba48434ba35d497d",
+      "Requirements": []
     },
     "sass": {
       "Package": "sass",
@@ -613,7 +635,9 @@
         "R.cache",
         "cli",
         "magrittr",
+        "purrr",
         "rlang",
+        "rprojroot",
         "vctrs",
         "withr"
       ]
