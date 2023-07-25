@@ -13,7 +13,7 @@ source("modules/summarize_module.R")
 shiny::shinyOptions(save.interface = saveInterfaceLocal)
 shiny::shinyOptions(load.interface = loadInterfaceLocal)
 
-bmi <- bookmark_init("db/bookmarks.sqlite")
+bmi <- bookmark_init()
 
 ui <- function(req) {
   tagList(

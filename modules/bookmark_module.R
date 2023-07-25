@@ -29,7 +29,11 @@ bookmark_load_ui <- function(id) {
   
 }
 
-bookmark_init <- function(filepath = "bookmarks.sqlite") {
+bookmark_init <- function(filepath = file.path("/home", Sys.getenv("USER"), "shinysessions", "bookmarks.sqlite")) {
+  if (!dir.exists(dirname(filepath))) {
+    dir.create(dirname(filepath))
+  }
+  
   bookmark_pool <- local({
     pool <- dbPool(SQLite(), dbname = filepath)
     onStop(function() {
