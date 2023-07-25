@@ -1,5 +1,5 @@
 saveInterfaceLocal <- function(id, callback) {
-  root_dir <- "/home/eric/shinysessions"
+  root_dir <- file.path("/home", Sys.getenv("USER"), "shinysessions")
   
   if (is.null(root_dir)) {
     root_dir <- fs::file_temp()
@@ -16,7 +16,7 @@ saveInterfaceLocal <- function(id, callback) {
 
 loadInterfaceLocal <- function(id, callback) {
   # grab key variables from ShinyOptions
-  root_dir <- "/home/eric/shinysessions"
+  root_dir <- file.path("/home", Sys.getenv("USER"), "shinysessions")
 
   if (is.null(root_dir)) {
     root_dir <- fs::file_temp()
