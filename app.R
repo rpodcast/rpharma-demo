@@ -1,6 +1,8 @@
 library(shiny)
 library(shinythemes)
 library(dplyr)
+library(dbplyr)
+library(DT)
 
 source("helpers/format.R")
 source("helpers/utils.R")
