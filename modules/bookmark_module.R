@@ -23,11 +23,17 @@ bookmark_modal_load_ui <- function(id) {
 
 bookmark_load_ui <- function(id) {
   ns <- NS(id)
+  tagList(
+    uiOutput(ns("saved_sessions"))
+  )
   
-  uiOutput(ns("saved_sessions"))
 }
 
-bookmark_init <- function(filepath = "bookmarks.sqlite") {
+bookmark_init <- function(filepath = file.path("/home", Sys.getenv("USER"), "shinysessions", "bookmarks.sqlite")) {
+  if (!dir.exists(dirname(filepath))) {
+    dir.create(dirname(filepath))
+  }
+  
   bookmark_pool <- local({
     pool <- dbPool(SQLite(), dbname = filepath)
     onStop(function() {
@@ -61,6 +67,28 @@ bookmark_init <- function(filepath = "bookmarks.sqlite") {
 
 bookmark_mod <- function(input, output, session, instance, thumbnailFunc) {
   
+  session_df <- reactive({
+    message("entered session_df")
+    req(instance$reader())
+    instance$reader() %>%
+      select(url, label, author, timestamp) %>%
+      mutate(url2 = glue::glue("<a href={url}>{label}</a>"))
+  })
+  
+  output$saved_sessions_placeholder <- renderUI({
+    fluidRow(
+      DT::dataTableOutput(session$ns("saved_sessions_table"))
+    )
+  })
+  
+  output$saved_sessions_table <- DT::renderDataTable({
+    req(session_df())
+    DT::datatable(
+      session_df(),
+      escape = FALSE
+    )
+  })
+  
   output$saved_sessions <- renderUI({
     fluidRow(
       instance$reader() %>%
@@ -90,9 +118,10 @@ bookmark_mod <- function(input, output, session, instance, thumbnailFunc) {
   shiny::setBookmarkExclude(c("show_save_modal", "show_load_modal", "save_name", "save"))
   
   observeEvent(input$show_load_modal, {
-    showModal(modalDialog(size = "l", easyClose = TRUE, title = "Restore session",
-      tags$style(".modal-body { max-height: 600px; overflow-y: scroll; }"),
-      uiOutput(session$ns("saved_sessions"))
+    showModal(modalDialog(size = "xl", easyClose = TRUE, title = "Restore session",
+      #tags$style(".modal-body { max-height: 900px; overflow-y: scroll; }"),
+      #uiOutput(session$ns("saved_sessions")),
+      uiOutput(session$ns("saved_sessions_placeholder"))
     ))
   })
   
